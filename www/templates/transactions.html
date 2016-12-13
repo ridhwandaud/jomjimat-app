@@ -1,0 +1,53 @@
+<ion-view view-title="Transactions">
+	<ion-floating-button click="preAddingTransaction()" has-footer="false" button-color="#33cd5f" icon="ion-plus" icon-color="#fff" iscentered=true>
+	</ion-floating-button>
+	<div class="bar bar-subheader">
+    <h2 class="title">This Month</h2>
+  </div>
+  <ion-content class="has-header has-subheader">
+    <ion-list>
+      <div class="card" ng-repeat="transaction in transactions">
+			  <div class="item item-text-wrap item-divider">
+			    {{transaction.date}}
+			    <p style="float: right">- {{ x | currency : "RM"}}</p>
+			  </div>
+			  <div class="item item-text-wrap" ng-repeat="item in singleTransaction	">
+			   	{{item.value}}
+			  </div>
+			</div>
+    </ion-list>
+  </ion-content>
+</ion-view>
+
+
+
+<!-- Add Transaction Modal -->
+<script id="add-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Add transaction</h1>
+      <button class="button button-assertive" ng-click="closeModal()">Cancel</button>
+    </ion-header-bar>
+    <ion-content>
+      <div class="list">
+			  <label class="item item-input">
+			    <span class="input-label">Value</span>
+			    <input type="number" ng-model="transaction.value">
+			  </label>
+			  <label class="item item-input">
+			    <span class="input-label">Category</span>
+			    <input type="text" ng-model="transaction.category" >
+			  </label>
+			  <label class="item item-input">
+			    <span class="input-label">Date</span>
+			    <input type="date" ng-model="transaction.date" >
+			  </label>
+			</div>
+			<div class="row">
+				<button class="button button-full button-positive" ng-click="addTransaction(transaction)">
+				  Add Transaction
+				</button>
+			</div>
+    </ion-content>
+  </ion-modal-view>
+</script>
