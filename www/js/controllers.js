@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout,$ionicLoading) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -39,23 +39,61 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
+  $scope.show = function() {
+    $ionicLoading.show({
+      template: 'Loading...',
+      duration: 3000
+    }).then(function(){
+       console.log("The loading indicator is now displayed");
+    });
+  };
+  $scope.hide = function(){
+    $ionicLoading.hide().then(function(){
+       console.log("The loading indicator is now hidden");
+    });
+  };
 })
 
-.controller('TransactionsCtrl', function($scope,$ionicModal) {
-  $scope.transactions = [
-    { date: '12 oktober', id: 1 },
-    { date: '10 oktober', id: 2 },
-  ];
+.controller('TransactionsCtrl', function($scope,$ionicModal,$http) {
+  $scope.connectError = true;
+  $scope.show();
+  $http.get("http://localhost:8000/show/booking")
+    .then(function(response) {
+        $scope.connectError = false;
+        $scope.transactions = response.data;
 
-  $scope.x = 10;
-  $scope.singleTransaction = [
-  { "parent_category":"food" , "value" : 10 , "description" : "nasi lemak ayam" ,"date":"12/10/2016"},
-  { "parent_category":"food" , "value" : 11 , "description" : "nasi lemak ayam" ,"date":"09/10/2016"},
-  ];
+        $scope.total = $scope.transactions[0].total;
+        $scope.hide();
+    },function(error)
+    {
+      $scope.connectError = true;
+      $scope.hide();
+    });
+
+
+  // $scope.transactions = [
+  //   { date: '10-9-2016', id: 1 },
+  //   { date: '10-8-2016', id: 2 },
+  //   { date: '10-10-2016', id: 3 },
+  // ];
+
+
+  // $scope.today= moment();
+  // $scope.dateNumber = moment().format("DD");
+  // $scope.dateString = moment().format("dddd");
+  // $scope.monthYear = moment().format("MMMM YYYY");
+
+  // $scope.x = 10;
+  // $scope.singleTransaction = [
+  // { "parent_category":"food" , "value" : 10 , "description" : "nasi lemak ayam" ,"date":"12/10/2016"},
+  // { "parent_category":"food" , "value" : 11 , "description" : "nasi lemak ayam" ,"date":"09/10/2016"},
+  // ];
 
   $ionicModal.fromTemplateUrl('add-modal.html', {
       scope: $scope,
-      animation: 'slide-in-up'
+      animation: 'slide-in-up',
+      animation: 'none'
     }).then(function(modal) {
       $scope.modal = modal;
       $scope.transaction = "";
@@ -81,7 +119,7 @@ angular.module('starter.controllers', [])
 
   $scope.closeModal = function()
   {
-    $scope.modal.hide();
+    $scope.modal.remove();
   }
     
 })

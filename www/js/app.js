@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers','ion-floating-menu'])
+angular.module('starter', ['ionic', 'starter.controllers','ion-floating-menu','angularMoment'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -70,4 +70,28 @@ angular.module('starter', ['ionic', 'starter.controllers','ion-floating-menu'])
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/transactions');
+})
+
+
+//filers
+.filter('shortDateFormat', function shortDateFormat($filter){
+  return function(date){
+
+    return moment(date).format("DD");
+  }
+})
+
+.filter('stringDateFormat', function shortDateFormat($filter){
+  return function(date){
+
+    return moment(date).format("dddd");
+  }
+})
+
+
+.filter('monthYearFormat', function shortDateFormat($filter){
+  return function(date){
+
+    return moment(date).format("MMMM YYYY");
+  }
 });

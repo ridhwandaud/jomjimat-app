@@ -4,12 +4,53 @@
 	<!-- <div class="bar bar-subheader">
     <h2 class="title">This Month</h2>
   </div> -->
-  <ion-content class="has-header zhas-subheader">
+  <ion-content class="has-header">
     <ion-list>
-      <div class="card" ng-repeat="transaction in transactions">
+    	<div class="card" ng-hide="connectError">
+    		<div class="item-text-warp item-divider">
+    			<div>
+    				<div class="row">
+	    				<div class="col">
+	    					<p>Debt and loan (income)</p>
+	    				</div>
+	    			</div>
+    				<div class="row">
+	    				<div class="col">
+	    					<p>Transfer (in out)</p>
+	    				</div>
+	    			</div>
+	    			<div class="row">
+	    				<div class="col">
+	    					<p>Inflow (income)</p>
+	    				</div>
+	    			</div>
+    				<div class="row">
+	    				<div class="col col-75">
+		    				<p class="assertive">Outflow (expense)</p>
+	    				</div>
+	    				<div class="col">
+				  			<p class="assertive">- {{total | currency : "RM"}}</p>
+				  		</div>
+			  		</div>
+    			</div>
+    		</div>
+    	</div>
+      <div class="card" ng-repeat="transaction in transactions | orderBy : 'date'">
 			  <div class="item item-text-wrap item-divider">
-			    {{transaction.date}}
-			    <p style="float: right">- {{ x | currency : "RM"}}</p>
+			  	<div class="row nopadding">
+			  		<div class="col col-10 nopadding-topBottom">
+			  			<p>{{::transaction.date_transaction | shortDateFormat}}</p>
+			  		</div>
+			  		<div class="col nopadding-topBottom">
+			  			<p>{{::transaction.date_transaction | stringDateFormat}}</p>
+							<p>{{::transaction.date_transaction | monthYearFormat}}</p>
+			  		</div>
+			  		<div class="col nopadding">
+			  			<p style="float: right">- {{::transaction.total | currency : "RM"}}</p>
+			  		</div>
+			  	</div>
+			    
+			    
 			  </div>
 			  <div class="item item-text-wrap item-icon-left" ng-repeat="item in singleTransaction	">
 			  	<i class="icon ion-ios-telephone"></i>
@@ -27,6 +68,7 @@
 <script id="add-modal.html" type="text/ng-template">
   <ion-modal-view>
     <ion-header-bar>
+    	<button class="button button-icon icon ion-navicon"></button>
       <h1 class="title">Add transaction</h1>
       <button class="button button-assertive" ng-click="closeModal()">Cancel</button>
     </ion-header-bar>
@@ -34,7 +76,7 @@
       <div class="list">
 			  <label class="item item-input">
 			    <span class="input-label">Value</span>
-			    <input type="number" ng-model="transaction.value">
+			    <input type="number" ng-model="transaction.value" value="{{transaction.value}}">
 			  </label>
 			  <label class="item item-input">
 			    <span class="input-label">Category</span>

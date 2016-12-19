@@ -9817,3 +9817,28 @@ a.button {
 
 .card {
   margin: 20px 0px; }
+
+.bar-height {
+  height: 110px !important; }
+
+.icon-large {
+  font-size: 35px; }
+
+.nopadding {
+  padding: 0px; }
+
+.nopadding-left {
+  padding-left: 0px; }
+
+.nopadding-right {
+  padding-right: 0px; }
+
+.nopadding-top {
+  padding-top: 0px; }
+
+.nopadding-bottom {
+  padding-bottom: 0px; }
+
+.nopadding-topBottom {
+  padding-top: 0px;
+  padding-bottom: 0px; }
